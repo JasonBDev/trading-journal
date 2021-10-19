@@ -1,5 +1,7 @@
 # strikerate
 
+Client-Side of Strikerate
+
 ## Project setup
 ```
 npm install
