@@ -10,7 +10,7 @@
 
   <div class="header">
     <div class="performance-panel">
-      <area-chart :colors="['rgba(100,125,255,0.2)']" suffix="%" width="95%" height="240px" :data="chartData"></area-chart>
+      <area-chart :colors="['rgba(100,125,255,0.2)']" suffix="$" width="95%" height="240px" :data="chartData"></area-chart>
     </div>
   </div>
 
@@ -27,9 +27,10 @@
     <p>Win/Loss▾</p>
     <p>Side▾</p>
     <p>Symbol▾</p>
-    <p>Pos. Size</p>
-    <p style="margin-left: -20px; margin-right: -20px">Entry▾ ($)</p>
-    <p>Exit▾ ($)</p>
+    <p>Pos. Size▾</p>
+    <p style="margin-left: -20px; margin-right: -20px">Entry▾</p>
+    <p style="margin-left: 15px;">Exit▾</p>
+    <p style="margin-left: 15px;">Profit▾</p>
   </div>
 
   <ul class='trade-list'>
@@ -37,6 +38,10 @@
 
     <trade @refresh-list="refreshList" v-for="todo in todos" :key="todo.name" :info="todo"/>
   </ul>
+
+  <div class="footer">
+
+  </div>
   
 </template>
 
@@ -55,18 +60,7 @@ export default {
     var tradeInputVis = ref(false);
     var openTradeVis = ref(false);
     var tradeid = ref('');
-    var chartData = ref({
-      '1': '1',
-      '2': '5',
-      '3': '3',
-      '4': '10',
-      '5': '7',
-      '6': '6',
-      '7': '12',
-      '8': '6',
-      '9': '5',
-      '10': '9',
-    });
+    var chartData = ref({});
 
     function refreshList(id){
       console.log(id);
@@ -93,6 +87,17 @@ export default {
           value.side = (value.side == true) ? 'long' : 'short';
           todos.value.push(value);
         })
+
+        var i = 0;
+        var total_profit = 0;
+        todos.value.reverse().forEach((todo) => {
+          i++
+          //add to chart data
+          total_profit += todo.profit;
+          chartData.value[i] = total_profit;
+        });
+
+        todos.value.reverse();
       }
     })
 
@@ -103,7 +108,6 @@ export default {
     async function addTrade(trade){
       
       //add trade to db here
-      var wintf = trade.win == 'win' ? true : false;
       var sidetf = trade.side == 'long' ? true : false;
 
       console.log(sidetf);
@@ -113,7 +117,6 @@ export default {
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
         body: JSON.stringify({
-          win: wintf,
           side: sidetf,
           symbol: trade.symbol,
           entry: trade.entry,
@@ -127,7 +130,9 @@ export default {
       alert(content.message);
 
       if(content.message == 'Trade added!'){
-        todos.value.unshift(trade);
+        if(content.result.win == true){ content.result.win = 'win'; }else{ content.result.win = 'loss'; }
+        if(content.result.side == true){ content.result.side = "long"; }else{ content.result.side = "short"; }
+        todos.value.unshift(content.result);
         toggleTrade();
       }
     }
@@ -303,5 +308,9 @@ li p:last-child{
 
 ul:last-child{
   border-bottom: solid; border-color: rgb(240,240,240); border-width: 1px;
+}
+
+.footer{
+  height: 200px;
 }
 </style>

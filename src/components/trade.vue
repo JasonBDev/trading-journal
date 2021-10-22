@@ -10,19 +10,21 @@
       <p>{{info.size}}</p>
       <p>${{info.entry}}</p>
       <p>${{info.exit}}</p>
+      <p v-bind:class="{'win': (info.profit > 0), 'loss': (info.profit < 0)}">${{info.profit}}</p>
     </div>
     <div class="notes">
       <textarea v-model="notes" placeholder="Notes..." style="margin-right: 0; margin-left: 20px" class="notes-input" type="text"></textarea>
       <div class="notes-side">
         <div class="notes-side-container">
-          <input placeholder="Risk" style="margin-right: 10px" type="text">
-          <input placeholder="Reward" style="margin-right: 10px" type="text">
+          <input placeholder="Risk" style="margin-right: 0px" type="text">
+          <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Profit: ${{info.profit}}</p>
+          <button @click="saveNotes" class="save-button"><span class="material-icons md-18">save</span></button>
         </div>
         <div class="notes-side-container">
+          <input placeholder="Reward" style="margin-right: 0px" type="text">
           <select>
             <option value="long">Strategy</option>
           </select>
-          <button @click="saveNotes" class="save-button">Save</button>
           <button @click="deleteButton" class="delete-button"><span class="material-icons md-18">delete</span></button>
         </div>
       </div>
@@ -105,6 +107,20 @@ export default {
 
 <style scoped>
 
+.win{
+  color: rgb(120,199,171);
+}
+
+.loss{
+  color: rgb(220,67,105);
+}
+
+.profit{
+  margin-bottom: 10px;
+  padding-top: 13px; padding-bottom: 13px;
+  font-weight: 900;
+}
+
 .trade{
   background-color: white;
   list-style-type: none;
@@ -160,7 +176,7 @@ export default {
   width: 160px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -196,26 +212,27 @@ export default {
   padding: 0 3px 0 3px;
   width: 140px;
   outline: none;
+  margin-bottom: 10px;
 }
 
 .save-button{
   color: white;
-  background-color: rgb(30,30,30);
+  background-color: rgb(120,199,171);
   border: none; border-radius: 5px;
   height: 41px;
-  margin: 10px 0 10px 0;
   transition: 200ms;
-  width: 140px;
+  width: 144px;
 }
 
 .save-button:hover{
   cursor: pointer;
-  background-color: rgb(120,199,171);
+  background-color: rgb(250,250,250);
+  color: black;
 }
 
 .delete-button{
   color: white;
-  background-color: rgb(30,30,30);
+  background-color: rgb(220,67,105);
   border: none; border-radius: 5px;
   height: 41px;
   transition: 200ms;
@@ -224,7 +241,8 @@ export default {
 
 .delete-button:hover{
   cursor: pointer;
-  background-color: rgb(220,67,105);
+  background-color: rgb(250,250,250);
+  color: black;
 }
 
 .button-div button:first-child{

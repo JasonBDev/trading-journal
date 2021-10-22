@@ -5,10 +5,7 @@
     <button @click='this.$emit("cancel")'><span class="material-icons sl-14">clear</span></button>
   </div>
   <div>
-      <select class="win-select" v-model="win" name="win">
-        <option value="win">Win</option>
-        <option value="loss">Loss</option>
-      </select>
+    <div style="width: 90px"></div>
   </div>
   <div>
       <select class="side-class" v-model="side" name="side">
@@ -20,6 +17,7 @@
   <input v-on:keyup.enter="emitTrade" v-model="size" type="text" placeholder="Pos. Size">
   <input v-on:keyup.enter="emitTrade" v-model="entry" type="text" placeholder="Entry">
   <input v-on:keyup.enter="emitTrade" v-model="exit" type="text" placeholder="Exit">
+  <div style="width: 60px;"></div>
 </div>
 
 </template>
@@ -40,7 +38,6 @@ export default {
     addTrade(){
       
       var trade={
-        win: this.win,
         side: this.side,
         symbol: this.symbol,
         entry: this.entry,
