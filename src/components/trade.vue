@@ -6,7 +6,7 @@
       <p>{{info.symbol}}</p>
       <p>{{info.size}}</p>
       <p>${{info.entry}}</p>
-      <p>${{info.exit}}</p>
+      <p>${{info.exitPrice}}</p>
       <p v-bind:class="{'win': (info.profit > 0), 'loss': (info.profit < 0)}">${{info.profit}}</p>
     </div>
     <div class="notes">
@@ -38,7 +38,7 @@ export default {
     return{
       isActive: false,
       notes: '',
-      loadedNotes: false
+      loadedNotes: false,
     }
   },
   methods: {

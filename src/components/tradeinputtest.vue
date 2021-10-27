@@ -8,10 +8,10 @@
       </div>
       
       <div>
-        <h3>Side</h3>
-        <select class="side-class" v-model="side" name="side">
-          <option value="long">Long</option>
-          <option value="short">Short</option>
+        <h3>W/L</h3>
+        <select class="side-class" v-model="winloss" name="winloss">
+          <option value="win">Win</option>
+          <option value="loss">Loss</option>
         </select>
       </div>
       
@@ -20,24 +20,23 @@
     <div class="mini-container">
       <div>
         <h3>Entry</h3>
-        <input v-on:keyup.enter="emitTrade" v-model="entry" type="text" placeholder="Entry">
+        <input v-on:keyup.enter="emitTrade" v-model="entry" type="text" placeholder="0">
       </div>
       <div>
-        <h3>Exit</h3>
-        <input v-on:keyup.enter="emitTrade" v-model="exit" type="text" placeholder="Exit">
+        <h3>Position Size</h3>
+        <input v-on:keyup.enter="emitTrade" v-model="size" type="text" placeholder="0">
       </div>
     </div>
     
     <div class="mini-container">
       <div>
-        <h3>Stop loss</h3>
-        <input v-on:keyup.enter="emitTrade" v-model="size" type="text" placeholder="Stop loss">
+        <h3>Stop Loss</h3>
+        <input v-on:keyup.enter="emitTrade" v-model="sl" type="text" placeholder="0">
       </div>
       <div>
-        <h3>Position Size</h3>
-        <input v-on:keyup.enter="emitTrade" v-model="size" type="text" placeholder="Pos. Size">
+        <h3>Take Profit</h3>
+        <input v-on:keyup.enter="emitTrade" v-model="tp" type="text" placeholder="0">
       </div>
-      
     </div>
     
   </div>
@@ -56,23 +55,27 @@ export default {
   name: 'tradeinputtest',
   data(){
     return{
-      win: 'win',
-      side: 'long',
+      winloss: 'win',
       symbol: '',
       entry: '',
-      exit: ''
+      size: '',
+      tp: '',
+      sl: '',
     }
   },
   methods: {
     addTrade(){
       
       var trade={
-        side: this.side,
+        win: this.winloss,
         symbol: this.symbol,
         entry: this.entry,
-        exit: this.exit,
         size: this.size,
+        tp: this.tp,
+        sl: this.sl,
       }
+
+      console.log(trade);
 
       this.$emit('insertTrade', trade)
     }

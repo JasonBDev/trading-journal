@@ -85,8 +85,15 @@ export default {
 
       if(content.message != 'no-auth'){
         content.forEach((value)=> {
-          value.win = (value.win == true) ? 'win' : 'loss';
+          value.win= (value.win == true) ? 'win' : 'loss';
           value.side = (value.side == true) ? 'long' : 'short';
+
+          if(value.win == 'win'){
+            value.exitPrice = value.tp;
+          }else{
+            value.exitPrice = value.sl;
+          }
+
           todos.value.push(value);
         })
 
@@ -110,30 +117,37 @@ export default {
     async function addTrade(trade){
       
       //add trade to db here
-      var sidetf = trade.side == 'long' ? true : false;
+      var winlosstf = trade.win == 'win' ? true : false;
 
-      console.log(sidetf);
+      console.log(winlosstf);
 
       const res = await fetch('http://localhost:8000/api/addtrade', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
         body: JSON.stringify({
-          side: sidetf,
+          win: winlosstf,
           symbol: trade.symbol,
           entry: trade.entry,
-          exit: trade.exit,
           size: trade.size,
+          sl: trade.sl,
+          tp: trade.tp,
         })
       });
 
       const content = await res.json();
 
-      alert(content.message);
-
       if(content.message == 'Trade added!'){
-        if(content.result.win == true){ content.result.win = 'win'; }else{ content.result.win = 'loss'; }
+        if(content.result.win == true){
+          content.result.win = 'win'; 
+          content.result.exitPrice = content.result.tp;
+        }else{ 
+          content.result.win = 'loss';
+          content.result.exitPrice = content.result.sl;
+        }
+
         if(content.result.side == true){ content.result.side = "long"; }else{ content.result.side = "short"; }
+
         todos.value.unshift(content.result);
         toggleTrade();
       }
