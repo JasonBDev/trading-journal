@@ -1,9 +1,6 @@
 <template>
   <div class="trade" v-bind:class="{active: isActive}">
     <div @click="toggleTrade()" class="trade-header">
-      <div class="button-div">
-      <button><span style="color: rgb(50,50,50)" class="material-icons md-18">edit</span></button>
-      </div>
       <h3 v-bind:class="{'winorlong':(info.win === 'win'), 'lossorshort':(info.win === 'loss')}">{{info.win}}</h3>
       <h3 v-bind:class="{'winorlong':(info.side === 'long'), 'lossorshort':(info.side === 'short')}">{{info.side}}</h3>
       <p>{{info.symbol}}</p>
@@ -16,12 +13,10 @@
       <textarea v-model="notes" placeholder="Notes..." style="margin-right: 0; margin-left: 20px" class="notes-input" type="text"></textarea>
       <div class="notes-side">
         <div class="notes-side-container">
-          <input placeholder="Risk" style="margin-right: 0px" type="text">
-          <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Profit: ${{info.profit}}</p>
+          <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Risk/Reward: 3.51</p>
           <button @click="saveNotes" class="save-button"><span class="material-icons md-18">save</span></button>
         </div>
         <div class="notes-side-container">
-          <input placeholder="Reward" style="margin-right: 0px" type="text">
           <select>
             <option value="long">Strategy</option>
           </select>
@@ -140,7 +135,7 @@ export default {
 }
 
 .trade-header{
-  padding: 9px 0 9px 0;
+  padding: 15px 0 15px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -166,9 +161,10 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 320px; min-width: 320px;
+  width: 260px; min-width:260px;
   height: 200px;
   padding: 0 20px 0 20px;
+  margin: 0 20px 0 20px;
 }
 
 .notes-side-container{
@@ -226,8 +222,7 @@ export default {
 
 .save-button:hover{
   cursor: pointer;
-  background-color: rgb(250,250,250);
-  color: black;
+  background-color: rgb(90, 161, 136);
 }
 
 .delete-button{
@@ -241,8 +236,7 @@ export default {
 
 .delete-button:hover{
   cursor: pointer;
-  background-color: rgb(250,250,250);
-  color: black;
+  background-color: rgb(170, 48, 78);
 }
 
 .button-div button:first-child{

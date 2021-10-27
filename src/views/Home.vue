@@ -12,6 +12,7 @@
     <div class="performance-panel">
       <area-chart :colors="['rgba(100,125,255,0.2)']" suffix="$" width="95%" height="240px" :data="chartData"></area-chart>
     </div>
+    <div class="rotating-text-div"><span>Hit Rate: 44.5%</span><span>Risk/Reward: 3.4</span></div>
   </div>
 
   <div class="trade-history-title-div">
@@ -22,8 +23,11 @@
     </div>
   </div>
 
+  <div class="tradeinput-div">
+    <tradeinputtest @cancel="toggleTrade" @insertTrade="addTrade" v-if="tradeInputVis"/>
+  </div>
+
   <div class="trade-list-header">
-    <p style="margin-right: -10px">Select</p>
     <p>Win/Loss▾</p>
     <p>Side▾</p>
     <p>Symbol▾</p>
@@ -34,8 +38,6 @@
   </div>
 
   <ul class='trade-list'>
-    <tradeinputtest @cancel="toggleTrade" @insertTrade="addTrade" v-if="tradeInputVis"/>
-
     <trade @refresh-list="refreshList" v-for="todo in todos" :key="todo.name" :info="todo"/>
   </ul>
 
@@ -143,6 +145,28 @@ export default {
 </script>
 
 <style scoped>
+
+.tradeinput-div{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rotating-text-div{
+  margin-top: 40px; margin-bottom: -20px;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rotating-text-div span{
+  margin-right: 40px;
+  background: rgb(247, 250, 251);
+  border: solid; border-width: 1px; border-radius: 10px; border-color: rgb(240,240,240);
+  padding: 15px;
+}
 
 .performance-header{
   display: flex;
