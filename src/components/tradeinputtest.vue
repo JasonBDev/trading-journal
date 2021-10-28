@@ -1,5 +1,6 @@
 <template>
-<div class="trade-input">
+<div style="padding-top: 0;" class="trade-input">
+  <h3 style="font-size: 18px; font-weight: 400; margin: 0; padding: 10px 0 10px 0; border-radius: 10px 10px 0 0; width: 100%; color: white;  background: rgb(30,30,30);">Add Trade</h3>
   <div class="main-container">
     <div class="mini-container">
       <div>

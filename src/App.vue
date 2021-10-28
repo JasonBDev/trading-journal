@@ -15,6 +15,8 @@
       </div>
     </div>
     <router-view/>
+
+    <Footer />
   </div>
 </template>
 
@@ -22,9 +24,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore} from 'vuex'
+import Footer from "./components/Footer.vue"
 
 export default {
   name: 'App',
+  components: {
+    Footer,
+  },
   setup(){
     const loggedIn = ref(false);
     const router = useRouter();
@@ -97,7 +103,7 @@ export default {
 .container{
   height: 100%;
   width: 60%;
-  min-width: 600px;
+  min-width: 740px;
 }
 
 .right-nav{

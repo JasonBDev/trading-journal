@@ -1,6 +1,6 @@
 <template>
   <div class="performance-header">
-    <h1>Performance</h1>
+    <h1>Equity Curve</h1>
     <select>
       <option value="monthly">Monthly</option>
       <option value="weekly">Weekly</option>
@@ -12,13 +12,13 @@
     <div class="performance-panel">
       <area-chart :colors="['rgba(100,125,255,0.2)']" suffix="$" width="95%" height="240px" :data="chartData"></area-chart>
     </div>
-    <div class="rotating-text-div"><span>Hit Rate: 44.5%</span><span>Risk/Reward: 3.4</span></div>
+    <div class="rotating-text-div"><span>Hit Rate: {{hit_rate}}%</span><span>Risk/Reward: {{average_rr}}</span><span>Number of Trades: {{numberOfTrades}}</span></div>
   </div>
 
   <div class="trade-history-title-div">
     <h2>Recent Activity</h2>
     <div>
-      <button @click="test" class="export-button">Export</button>
+      <button @click="coming_soon" class="export-button">Export</button>
       <button @click="toggleTrade">Add</button>
     </div>
   </div>
@@ -28,21 +28,26 @@
   </div>
 
   <div class="trade-list-header">
-    <p>Win/Loss▾</p>
-    <p>Side▾</p>
+    <p>Outcome▾</p>
+    <p style="margin-left: 26px;">Side▾</p>
     <p>Symbol▾</p>
-    <p>Pos. Size▾</p>
-    <p style="margin-left: -20px; margin-right: -20px">Entry▾</p>
-    <p style="margin-left: 15px;">Exit▾</p>
-    <p style="margin-left: 15px;">Profit▾</p>
+    <p style="margin-left: -20px;">Entry▾</p>
+    <p>Exit▾</p>
+    <p style="margin-right: 8px;">Size▾</p>
+    <p style="margin-right: 10px;">R:R</p>
+    <p>Profit▾</p>
   </div>
 
   <ul class='trade-list'>
     <trade @refresh-list="refreshList" v-for="todo in todos" :key="todo.name" :info="todo"/>
   </ul>
 
-  <div class="footer">
+  <div class="pagination">
+    <button @click="page_down"><span class="material-icons md-18">chevron_left</span></button>
 
+    <button v-bind:class="{'active_page':(page.active === true)}" v-for="page in pagination_buttons" :key="page.page" @click="loadTrades(page.page)">{{page.page + 1}}</button>
+
+    <button @click="page_up"><span class="material-icons md-18">chevron_right</span></button>
   </div>
   
 </template>
@@ -63,6 +68,24 @@ export default {
     var openTradeVis = ref(false);
     var tradeid = ref('');
     var chartData = ref({});
+    var pagination_buttons = ref([]);
+
+    var hit_rate = ref(0);
+    var average_rr = ref(0);
+    var numberOfTrades = ref(0);
+    var currentPage = ref(0);
+
+    function page_down(){
+      if(currentPage.value != 0){
+        loadTrades(currentPage.value - 1);
+      }
+    }
+
+    function page_up(){
+      if(currentPage.value != Math.ceil(numberOfTrades.value / 5) - 1){
+        loadTrades(currentPage.value + 1);
+      }
+    }
 
     function refreshList(id){
       console.log(id);
@@ -75,15 +98,32 @@ export default {
       todos.value = filtered;
     }
 
-    onMounted(async() => {
+    async function loadTrades(page){
+
       const res = await fetch('http://localhost:8000/api/trades', {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         credentials: 'include',
+        body: JSON.stringify({
+          page: page
+        })
       });
 
       const content = await res.json();
 
       if(content.message != 'no-auth'){
+
+        currentPage.value = page;
+        pagination_buttons.value.forEach((value)=> {
+          if(value.page == page){
+            value.active = true;
+          }else{
+            value.active = false;
+          }
+        });
+
+        todos.value.length = 0;
+        
         content.forEach((value)=> {
           value.win= (value.win == true) ? 'win' : 'loss';
           value.side = (value.side == true) ? 'long' : 'short';
@@ -93,6 +133,8 @@ export default {
           }else{
             value.exitPrice = value.sl;
           }
+
+          value.info = '';
 
           todos.value.push(value);
         })
@@ -108,6 +150,34 @@ export default {
 
         todos.value.reverse();
       }
+    }
+
+    onMounted(async() => {
+      const account_data = await fetch('http://localhost:8000/api/auth', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+      });
+
+      var account_stats = await account_data.json();
+
+      numberOfTrades.value = account_stats.data.wins + account_stats.data.losses;
+      hit_rate.value = Math.round((account_stats.data.wins / numberOfTrades.value) * 10000) / 100;
+      average_rr.value = Math.round((account_stats.data.average_rr / numberOfTrades.value) * 100) / 100;
+
+      for (var i = 0; i < Math.ceil(numberOfTrades.value / 5) ; i++){
+
+        var page_button = {
+          page: i,
+          active: false
+        }
+
+        pagination_buttons.value.push(page_button);
+      }
+
+      loadTrades(0);
+
+      console.log(pagination_buttons.value);
     })
 
     function toggleTrade() {
@@ -118,8 +188,6 @@ export default {
       
       //add trade to db here
       var winlosstf = trade.win == 'win' ? true : false;
-
-      console.log(winlosstf);
 
       const res = await fetch('http://localhost:8000/api/addtrade', {
         method: 'POST',
@@ -149,16 +217,54 @@ export default {
         if(content.result.side == true){ content.result.side = "long"; }else{ content.result.side = "short"; }
 
         todos.value.unshift(content.result);
+
+        numberOfTrades.value += 1;
         toggleTrade();
       }
     }
 
-    return{ todos, toggleTrade, tradeInputVis, addTrade, openTradeVis, tradeid, chartData, refreshList}
+    function coming_soon(){
+      alert('Coming Soon!');
+    }
+
+    return{page_up, page_down, todos, toggleTrade, tradeInputVis, addTrade, openTradeVis, tradeid, chartData, refreshList, average_rr, hit_rate, numberOfTrades, coming_soon, loadTrades, pagination_buttons}
   },
 }
 </script>
 
 <style scoped>
+
+.pagination{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button{
+  margin: 0 5px 0 5px;
+  width: 36px; height: 36px;
+  border: none 1px rgb(240,240,240);
+  border-radius: 5px;
+  background-color: white;
+  transition: 200ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button:hover{
+  cursor: pointer;
+  background: rgb(30,30,30);
+  color: white;
+}
+
+.active_page{
+  background-color: rgb(30,30,30) !important;
+  color: white !important;
+}
 
 .tradeinput-div{
   display: flex;
@@ -189,6 +295,7 @@ export default {
 
 .performance-header select {
   margin-left: 20px;
+  border: solid 1px rgb(240,240,240);
   border-radius: 5px;
   padding: 0 10px 0 10px;
   outline: none;
@@ -316,7 +423,8 @@ h2{
 
 .trade-list{
   margin-top: 20px;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
+  border-bottom: solid 1px rgb(240,240,240);
 }
 
 .trade p{
@@ -346,9 +454,5 @@ li p:last-child{
 
 ul:last-child{
   border-bottom: solid; border-color: rgb(240,240,240); border-width: 1px;
-}
-
-.footer{
-  height: 200px;
 }
 </style>

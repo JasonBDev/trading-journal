@@ -4,26 +4,30 @@
       <h3 v-bind:class="{'winorlong':(info.win === 'win'), 'lossorshort':(info.win === 'loss')}">{{info.win}}</h3>
       <h3 v-bind:class="{'winorlong':(info.side === 'long'), 'lossorshort':(info.side === 'short')}">{{info.side}}</h3>
       <p>{{info.symbol}}</p>
-      <p>{{info.size}}</p>
       <p>${{info.entry}}</p>
       <p>${{info.exitPrice}}</p>
+      <p>{{info.size}}</p>
+      <p>{{info.rr}}</p>
       <p v-bind:class="{'win': (info.profit > 0), 'loss': (info.profit < 0)}">${{info.profit}}</p>
     </div>
-    <div class="notes">
-      <textarea v-model="notes" placeholder="Notes..." style="margin-right: 0; margin-left: 20px" class="notes-input" type="text"></textarea>
-      <div class="notes-side">
-        <div class="notes-side-container">
-          <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Risk/Reward: 3.51</p>
-          <button @click="saveNotes" class="save-button"><span class="material-icons md-18">save</span></button>
-        </div>
-        <div class="notes-side-container">
-          <select>
-            <option value="long">Strategy</option>
-          </select>
-          <button @click="deleteButton" class="delete-button"><span class="material-icons md-18">delete</span></button>
-        </div>
-      </div>
+
+    <div class="trade-stats">
+      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Risk/Reward: {{info.rr}}</p>
+      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Stoploss: ${{info.sl}}</p>
+      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Entry: ${{info.entry}}</p>
+      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Take Profit: ${{info.tp}}</p>
     </div>
+
+    <h2>Notes</h2>
+    <div class="notes">
+      <textarea v-model="notes" placeholder="Notes..." style="margin-right: 20px; margin-left: 20px" class="notes-input" type="text"></textarea>
+    </div>
+
+    <div class="notes-side">
+      <button @click="saveNotes" class="save-button"><span class="material-icons md-18">save</span>Save</button>
+      <button @click="deleteButton" class="delete-button"><span class="material-icons md-18">delete</span>Delete</button>
+    </div>
+
   </div>
 </template>
 
@@ -143,14 +147,39 @@ export default {
   width: 100%;
 }
 
+.trade img{
+  width: 300px;
+  height: 200px;
+  margin: 0 20px 20px 20px;
+}
+
+.trade h2{
+  text-align: left;
+  margin: 10px 0 10px 20px;
+  font-weight: 500;
+}
+
+.trade-stats{
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0 0 20px;
+}
+
+.trade-stats p{
+  border: solid; border-width: 1px; border-radius: 10px; border-color: rgb(230,230,230);
+  background-color: white;
+  margin-right: 10px;
+  padding: 15px 10px 15px 10px;
+}
+
 .active{
-  height: 300px;
+  height: 470px;
   background-color: rgb(250,250,250);
 }
 
 .notes{
   width: 100%;
-  height: 250px;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -160,11 +189,28 @@ export default {
 .notes-side{
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  width: 260px; min-width:260px;
-  height: 200px;
-  padding: 0 20px 0 20px;
-  margin: 0 20px 0 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin: 20px 0 20px 0;
+}
+
+.notes-side button{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px 0 10px;
+}
+
+.notes-side button span{
+  margin-right: 20px;
+}
+
+.notes-side button:first-child{
+  width: 130px;
+  margin-left: 20px;
+  margin-right: 5px;
 }
 
 .notes-side-container{
