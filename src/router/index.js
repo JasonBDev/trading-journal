@@ -4,6 +4,7 @@ import Social from '../views/Social.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Statistics from '../views/Statistics.vue'
+import Accounts from '../views/Accounts.vue'
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     name: 'Register',
     component: Register,
 
+  },
+  {
+    path: '/accounts',
+    name: 'Accounts',
+    component: Accounts
   }
 ]
 

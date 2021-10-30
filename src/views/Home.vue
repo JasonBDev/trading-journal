@@ -1,4 +1,7 @@
 <template>
+
+  <button @click="goToAccounts"  class="back_button"><span class="material-icons md-18">chevron_left</span>Back to Accounts</button>
+
   <div class="performance-header">
     <h1>Equity Curve</h1>
     <select>
@@ -49,6 +52,8 @@
 
     <button @click="page_up"><span class="material-icons md-18">chevron_right</span></button>
   </div>
+
+  <button @click="goToAccounts" class="back_button"><span class="material-icons md-18">chevron_left</span>Back to Accounts</button>
   
 </template>
 
@@ -56,6 +61,7 @@
 import { ref, onMounted } from 'vue'
 import trade from '../components/trade.vue'
 import tradeinputtest from '../components/tradeinputtest.vue'
+import {useRouter} from 'vue-router';
 
 export default {
   components:{
@@ -63,6 +69,7 @@ export default {
     tradeinputtest,
   },
   setup(){
+
     var todos = ref([]);
     var tradeInputVis = ref(false);
     var openTradeVis = ref(false);
@@ -74,6 +81,12 @@ export default {
     var average_rr = ref(0);
     var numberOfTrades = ref(0);
     var currentPage = ref(0);
+
+    var router = useRouter();
+
+    function goToAccounts(){
+      router.push('/accounts');
+    }
 
     function page_down(){
       if(currentPage.value != 0){
@@ -223,16 +236,39 @@ export default {
       }
     }
 
-    function coming_soon(){
-      alert('Coming Soon!');
+    async function coming_soon(){
+      const res =  await fetch('http://localhost:8000/api/checkout', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+      });
+
+      const cont = await res.json();
+      window.location = cont;
     }
 
-    return{page_up, page_down, todos, toggleTrade, tradeInputVis, addTrade, openTradeVis, tradeid, chartData, refreshList, average_rr, hit_rate, numberOfTrades, coming_soon, loadTrades, pagination_buttons}
+    return{goToAccounts, page_up, page_down, todos, toggleTrade, tradeInputVis, addTrade, openTradeVis, tradeid, chartData, refreshList, average_rr, hit_rate, numberOfTrades, coming_soon, loadTrades, pagination_buttons}
   },
 }
 </script>
 
 <style scoped>
+
+.back_button{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 30px 0 30px -6px;
+  background: white;
+  border: none;
+  font-size: 13px;
+  transition: 200ms;
+}
+
+.back_button:hover{
+  cursor: pointer;
+  color: rgb(0,125,255);
+}
 
 .pagination{
   width: 100%;
@@ -260,7 +296,6 @@ export default {
   background: rgb(30,30,30);
   color: white;
 }
-
 .active_page{
   background-color: rgb(30,30,30) !important;
   color: white !important;

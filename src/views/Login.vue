@@ -68,6 +68,7 @@ export default {
 }
 
 .login-form h1{
+    margin-top: 40px;
     margin-bottom: 10px;
     text-align: left;
 }
@@ -101,5 +102,6 @@ export default {
     font-size: 14px;
     cursor: pointer;
     text-align: left;
+    margin-bottom: 20px;
 }
 </style>

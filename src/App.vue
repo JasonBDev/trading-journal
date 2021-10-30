@@ -171,7 +171,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0px 0 40px 0;
+  margin: 0px 0 00px 0;
   border-bottom: solid; border-width: 1px; border-color: rgb(230,230,230);
 }
 

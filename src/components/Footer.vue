@@ -32,7 +32,7 @@ export default {
     width: 100%;
     height:  280px;
     border-top: solid 1px rgb(230,230,230);
-    margin-top: 70px;
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
     justify-content: center;
