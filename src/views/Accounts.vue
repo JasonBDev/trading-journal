@@ -4,6 +4,8 @@
     <button @click="addAccount"><span class="material-icons md-18">add</span>Account</button>
   </div>
 
+  <accountinput />
+
   <Account v-for="account in accounts" :key="account.id" :account="account"/>
 
   <div class="pagination">
@@ -11,22 +13,20 @@
 
     <button class="active_page">1</button>
 
-    <button>2</button>
-
-    <button>3</button>
-
     <button @click="page_up"><span class="material-icons md-18">chevron_right</span></button>
   </div>
 </template>
 
 <script>
 import Account from '../components/Account.vue';
+import accountinput from '../components/accountinput.vue'
 import { ref, onMounted } from 'vue';
 
 export default {
     name: 'Accounts',
     components: {
       Account,
+      accountinput
     },
     setup(){
       var accounts = ref([]);

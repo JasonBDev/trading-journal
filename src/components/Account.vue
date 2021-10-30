@@ -11,7 +11,7 @@
       </div>
       
       <div class="button-div">
-        <button @click="goToDashboard(account.id)"><span class="material-icons md-18">login</span></button>
+        <button @click="goToDashboard(account._id)"><span class="material-icons md-18">login</span></button>
         <button><span class="material-icons md-18">delete</span></button>
       </div>
       
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 
 export default {
     name: 'Account',
@@ -26,7 +27,27 @@ export default {
         account: null
     },
     setup(){
-        return{}
+
+        var router = useRouter();
+
+        async function goToDashboard(id){
+            console.log(id);
+
+            const res = await fetch('http://localhost:8000/api/select-account', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify({
+                    id: id
+                }),
+            });
+
+            const cont = await res.json();
+            console.log(cont);
+            router.push('/');
+        }
+
+        return{ goToDashboard}
     }
 }
 </script>
