@@ -166,8 +166,8 @@ export default {
     }
 
     onMounted(async() => {
-      const account_data = await fetch('http://localhost:8000/api/auth', {
-        method: 'GET',
+      const account_data = await fetch('http://localhost:8000/api/account', {
+        method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
       });

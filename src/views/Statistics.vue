@@ -11,5 +11,7 @@ export default {
 <style scoped>
   h1{
     text-align: left;
+    margin-top: 30px;
+    
   }
 </style>

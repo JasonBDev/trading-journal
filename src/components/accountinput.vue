@@ -3,7 +3,7 @@
     <div class="input-form">
         <p>Account Name</p>
         <div class="input-div">
-            <input v-model="name" type="text" placeholder="Name">
+            <input v-on:keyup.enter="createAccount" v-model="name" type="text" placeholder="Name">
             <button @click="createAccount"><span class="material-icons md-18">add</span></button>
         </div>
     </div>

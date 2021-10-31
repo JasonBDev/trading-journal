@@ -6,7 +6,7 @@
 
   <accountinput @createAccount="addAccount" v-if="inputVisible" />
 
-  <Account v-for="account in accounts" :key="account.id" :account="account"/>
+  <Account @refreshAccounts="refreshAccounts()" v-for="account in accounts" :key="account.id" :account="account"/>
 
   <div class="pagination">
     <button @click="page_down"><span class="material-icons md-18">chevron_left</span></button>
@@ -51,6 +51,10 @@ export default {
         if(currentPage.value != 0){
           loadAccounts(currentPage.value - 1);
         }
+      }
+
+      function refreshAccounts(){
+        loadAccounts(currentPage.value);
       }
 
       async function loadAccounts(page){
@@ -111,10 +115,15 @@ export default {
         });
 
         const cont = await res.json();
-        alert(cont.message);
+        console.log(cont.message);
+
+        toggleInput();
+
+        loadAccounts(currentPage.value);
+
       }
 
-      return {page_down, page_up, loadAccounts, navigation_buttons, toggleInput, inputVisible, accounts, addAccount }
+      return {refreshAccounts, page_down, page_up, loadAccounts, navigation_buttons, toggleInput, inputVisible, accounts, addAccount }
     }
 }
 </script>

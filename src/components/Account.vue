@@ -3,16 +3,16 @@
       <div class="left-div">
           <p style="margin: 0 0 0 40px; width: 180px; text-align: left; overflow: hidden;">{{account.name}}</p>
           <p class="divider">|</p>
-          <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{(account.wins / (account.wins + account.losses)) * 100}}%</p>
+          <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{Math.round((account.wins / (account.wins + account.losses)) * 100)}}%</p>
           <p class="divider">|</p>
-          <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{account.average_rr / (account.wins + account.losses)}}</p>
+          <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{Math.round(account.average_rr / (account.wins + account.losses))}}</p>
           <p class="divider">|</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">NT: {{account.wins + account.losses}}</p>
       </div>
       
       <div class="button-div">
         <button @click="goToDashboard(account._id)"><span class="material-icons md-18">login</span></button>
-        <button><span class="material-icons md-18">delete</span></button>
+        <button @click="deleteAccount(account._id)"><span class="material-icons md-18">delete</span></button>
       </div>
       
   </div>
@@ -26,7 +26,7 @@ export default {
     props: {
         account: null
     },
-    setup(){
+    setup(props, context){
 
         var router = useRouter();
 
@@ -45,7 +45,23 @@ export default {
             router.push('/');
         }
 
-        return{ goToDashboard}
+        async function deleteAccount(_id){
+            const res = await fetch('http://localhost:8000/api/delete-account', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify({
+                    _id: _id
+                }),
+            });
+
+            const cont = await res.json();
+            console.log(cont);
+
+            context.emit('refreshAccounts');
+        }
+
+        return{ goToDashboard, deleteAccount}
     }
 }
 </script>
