@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import {ref, onBeforeMount} from 'vue'
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 
@@ -43,7 +43,7 @@ export default {
             }
         }
 
-        onMounted(async () => {
+        onBeforeMount(async () => {
             const res = await fetch('http://localhost:8000/api/auth', {
                 method: 'GET',
                 credentials: 'include',

@@ -7,7 +7,7 @@
           <p class="divider">|</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{Math.round(account.average_rr / (account.wins + account.losses))}}</p>
           <p class="divider">|</p>
-          <p style="margin: 0 20px 0 20px; width: 80px;">NT: {{account.wins + account.losses}}</p>
+          <p style="margin: 0 20px 0 20px; width: 80px;">#: {{account.wins + account.losses}}</p>
       </div>
       
       <div class="button-div">

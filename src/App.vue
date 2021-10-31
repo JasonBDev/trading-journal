@@ -4,15 +4,20 @@
       <div class="left-nav">
         <div @click="goToHome"><h1>SR</h1></div>
         <router-link v-if="auth_status" to="/">Dashboard</router-link>
+        <p v-if="auth_status">/</p>
         <router-link v-if="auth_status" to="/statistics">Statistics</router-link>
+        <p v-if="auth_status">/</p>
         <router-link v-if="auth_status" to="/social">Social</router-link>
         <router-link v-if="!auth_status" to="/login">Login</router-link>
+        <p v-if="!auth_status">/</p>
         <router-link v-if="!auth_status" to="/register">Register</router-link>
       </div>
       <div class="right-nav">
         <p>{{username}}</p>
         <button v-if="auth_status" @click="logout()"><span class="material-icons md-18">logout</span></button>
       </div>
+
+      <Profile />
     </div>
     <router-view/>
 
@@ -21,15 +26,17 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore} from 'vuex'
 import Footer from "./components/Footer.vue"
+import Profile from './components/Profile.vue'
 
 export default {
   name: 'App',
   components: {
     Footer,
+    Profile
   },
   setup(){
     const loggedIn = ref(false);
@@ -60,7 +67,7 @@ export default {
       store.commit('setName', '');
     }
 
-    onMounted(async () => {
+    onBeforeMount(async () => {
       //Fix this code and make it one request
       const res = await fetch('http://localhost:8000/api/auth', {
         method: 'GET',

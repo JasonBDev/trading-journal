@@ -13,7 +13,7 @@
 
 <script>
 //import firebase from 'firebase'
-import {ref, onMounted} from 'vue'
+import {ref, onBeforeMount} from 'vue'
 import {useRouter} from 'vue-router'
 
 export default {
@@ -45,7 +45,7 @@ export default {
             router.push('/login');
         }
 
-        onMounted(async () => {
+        onBeforeMount(async () => {
             const res = await fetch('http://localhost:8000/api/auth', {
                 method: 'GET',
                 credentials: 'include',

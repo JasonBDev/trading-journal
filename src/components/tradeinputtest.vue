@@ -1,8 +1,7 @@
 <template>
 <div style="padding-top: 0;" class="trade-input">
-  <h3 style="font-size: 18px; font-weight: 400; margin: 0; padding: 10px 0 10px 0; border-radius: 10px 10px 0 0; width: 100%; color: white;  background: rgb(30,30,30);">Add Trade</h3>
   <div class="main-container">
-    <div class="mini-container">
+    <div style="margin-top: 20px;" class="mini-container">
       <div>
         <h3>Symbol</h3>
         <input v-on:keyup.enter="emitTrade" v-model="symbol" type="text" placeholder="Symbol">
@@ -124,7 +123,7 @@ export default {
 }
 
 .trade-input{
-  background-color: rgb(247,250,251);
+  background-color: white;
   list-style-type: none;
   width: 280px;
   border: solid; border-color: rgb(230,230,230); border-width: 1px; border-radius: 10px;
@@ -132,7 +131,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 320px;
+  height: 316px;
   padding: 20px 0 0px 0;
   margin-top: 40px;
   position: absolute;
@@ -196,6 +195,6 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 </style>

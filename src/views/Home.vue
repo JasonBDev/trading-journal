@@ -3,7 +3,7 @@
   <button @click="goToAccounts"  class="back_button"><span class="material-icons md-18">chevron_left</span>Back to Accounts</button>
 
   <div class="performance-header">
-    <h1>Equity Curve</h1>
+    <h1>{{account_name}} - Equity Curve </h1>
     <select>
       <option value="monthly">Monthly</option>
       <option value="weekly">Weekly</option>
@@ -22,7 +22,7 @@
     <h2>Recent Activity</h2>
     <div>
       <button @click="coming_soon" class="export-button">Export</button>
-      <button @click="toggleTrade">Add</button>
+      <button @click="toggleTrade" class="add-button"><span class="material-icons md-18">add</span>Add</button>
     </div>
   </div>
 
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import trade from '../components/trade.vue'
 import tradeinputtest from '../components/tradeinputtest.vue'
 import {useRouter} from 'vue-router';
@@ -76,11 +76,12 @@ export default {
     var tradeid = ref('');
     var chartData = ref({});
     var pagination_buttons = ref([]);
-
+    
     var hit_rate = ref(0);
     var average_rr = ref(0);
     var numberOfTrades = ref(0);
     var currentPage = ref(0);
+    var account_name = ref(0);
 
     var router = useRouter();
 
@@ -165,7 +166,7 @@ export default {
       }
     }
 
-    onMounted(async() => {
+    onBeforeMount(async() => {
       const account_data = await fetch('http://localhost:8000/api/account', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -177,6 +178,7 @@ export default {
       numberOfTrades.value = account_stats.data.wins + account_stats.data.losses;
       hit_rate.value = Math.round((account_stats.data.wins / numberOfTrades.value) * 10000) / 100;
       average_rr.value = Math.round((account_stats.data.average_rr / numberOfTrades.value) * 100) / 100;
+      account_name.value = account_stats.data.name;
 
       for (var i = 0; i < Math.ceil(numberOfTrades.value / 5) ; i++){
 
@@ -247,7 +249,7 @@ export default {
       window.location = cont;
     }
 
-    return{goToAccounts, page_up, page_down, todos, toggleTrade, tradeInputVis, addTrade, openTradeVis, tradeid, chartData, refreshList, average_rr, hit_rate, numberOfTrades, coming_soon, loadTrades, pagination_buttons}
+    return{account_name, goToAccounts, page_up, page_down, todos, toggleTrade, tradeInputVis, addTrade, openTradeVis, tradeid, chartData, refreshList, average_rr, hit_rate, numberOfTrades, coming_soon, loadTrades, pagination_buttons}
   },
 }
 </script>
@@ -360,15 +362,25 @@ export default {
   margin-top: 60px;
 }
 
-.trade-history-title-div button{
+.trade-history-title-div button:last-child{
   height: 41px;
-  width: 100px;
+  width: 90px;
   background: rgb(30,30,30);
   border-radius: 5px;
-  border: none; border-width: 1px; border-color: rgb(30,30,30);
+  border: none;
   transition: 200ms;
   color:white;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.trade-history-title-div div{
+  display: flex;
+  flex-direction: row;
 }
 
 .trade-history-title-div button:hover{
