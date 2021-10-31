@@ -61,9 +61,9 @@ export default {
     }
 
     onMounted(async () => {
+      //Fix this code and make it one request
       const res = await fetch('http://localhost:8000/api/auth', {
         method: 'GET',
-        headers: {'Content-Type': 'application/json'},
         credentials: 'include',
       });
 
@@ -75,8 +75,6 @@ export default {
 
       if(computed(() => store.state.auth_status).value === false){
         router.push('/login');
-      } else {
-        router.push('/');
       }
 
       const res2 = await fetch('http://localhost:8000/api/user', {

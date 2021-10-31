@@ -1,17 +1,17 @@
 <template>
   <div class="accounts-header">
     <h1>Accounts</h1>
-    <button @click="addAccount"><span class="material-icons md-18">add</span>Account</button>
+    <button @click="toggleInput"><span class="material-icons md-18">add</span>Account</button>
   </div>
 
-  <accountinput />
+  <accountinput @createAccount="addAccount" v-if="inputVisible" />
 
   <Account v-for="account in accounts" :key="account.id" :account="account"/>
 
   <div class="pagination">
     <button @click="page_down"><span class="material-icons md-18">chevron_left</span></button>
 
-    <button class="active_page">1</button>
+    <button @click="loadAccounts(button.page)" v-for="button in navigation_buttons" :key="button.page" v-bind:class="{'active_page':(button.active === true)}">{{button.page + 1}}</button>
 
     <button @click="page_up"><span class="material-icons md-18">chevron_right</span></button>
   </div>
@@ -30,30 +30,91 @@ export default {
     },
     setup(){
       var accounts = ref([]);
+      var inputVisible = ref(false);
+      var navigation_buttons = ref([]);
+      var currentPage = ref(0);
+      var numberOfAccounts = ref(0);
 
       onMounted(async () => {
-        const res = await fetch('http://localhost:8000/api/accounts', {
-          method: 'POST',
-          credentials: 'include',
-        });
-
-        const cont = await res.json();
-        accounts.value = cont;
+        
+        loadAccounts(0);
 
       });
 
-      async function addAccount(){
-        console.log('add');
+      function page_up(){
+        if(currentPage.value != Math.ceil(numberOfAccounts.value / 5) - 1){
+          loadAccounts(currentPage.value + 1);
+        }
+      }
+
+      function page_down(){
+        if(currentPage.value != 0){
+          loadAccounts(currentPage.value - 1);
+        }
+      }
+
+      async function loadAccounts(page){
+
+        //Making fetch request
+        const res = await fetch('http://localhost:8000/api/accounts', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            page: page
+          })
+        });
+
+        //Convert and reverse response
+        const cont = await res.json();
+        accounts.value = cont.accounts.reverse();
+
+        //Clear array
+        navigation_buttons.value.length = 0;
+
+        //Calculate amount of pages - create array
+        for(var i = 0; i < Math.ceil(cont.length / 5); i++){
+          navigation_buttons.value.push({
+            page: i,
+            active: false
+          })
+        }
+
+        numberOfAccounts.value = cont.length;
+        
+        //Set active page
+        navigation_buttons.value.forEach((value)=> {
+          if(value.page == page){
+            value.active = true;
+          }else{
+            value.active = false;
+          }
+        });
+
+        //Set CurrentPage
+        currentPage.value = page;
+      }
+
+      //Toggle Account Input Modal
+      function toggleInput(){
+        inputVisible.value = !inputVisible.value;
+      }
+
+      async function addAccount(name){
         const res = await fetch('http://localhost:8000/api/create-account', {
           method: 'POST',
           credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: name
+          })
         });
 
         const cont = await res.json();
-        console.log(cont);
+        alert(cont.message);
       }
 
-      return { accounts, addAccount }
+      return {page_down, page_up, loadAccounts, navigation_buttons, toggleInput, inputVisible, accounts, addAccount }
     }
 }
 </script>
@@ -80,6 +141,7 @@ export default {
   justify-content: flex-start;
   padding: 10px;
   transition: 200ms;
+  z-index: 100;
 }
 
 .accounts-header button:hover{

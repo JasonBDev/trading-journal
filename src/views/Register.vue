@@ -13,7 +13,7 @@
 
 <script>
 //import firebase from 'firebase'
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 
 export default {
@@ -44,6 +44,19 @@ export default {
             alert('Account Created with ' + content.email);
             router.push('/login');
         }
+
+        onMounted(async () => {
+            const res = await fetch('http://localhost:8000/api/auth', {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            const content = await res.json();
+
+            if(content.message == 'auth'){
+                router.push('/');
+            }
+        })
         
         function goToLogin(){
             router.push('/login');

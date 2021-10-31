@@ -3,11 +3,11 @@
       <div class="left-div">
           <p style="margin: 0 0 0 40px; width: 180px; text-align: left; overflow: hidden;">{{account.name}}</p>
           <p class="divider">|</p>
-          <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{account.hit_rate}}%</p>
+          <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{(account.wins / (account.wins + account.losses)) * 100}}%</p>
           <p class="divider">|</p>
-          <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{account.average_rr}}</p>
+          <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{account.average_rr / (account.wins + account.losses)}}</p>
           <p class="divider">|</p>
-          <p style="margin: 0 20px 0 20px; width: 80px;">NT: {{account.number_of_trades}}</p>
+          <p style="margin: 0 20px 0 20px; width: 80px;">NT: {{account.wins + account.losses}}</p>
       </div>
       
       <div class="button-div">
@@ -31,8 +31,6 @@ export default {
         var router = useRouter();
 
         async function goToDashboard(id){
-            console.log(id);
-
             const res = await fetch('http://localhost:8000/api/select-account', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},

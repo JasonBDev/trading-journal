@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 
@@ -42,6 +42,19 @@ export default {
                 router.push('/')
             }
         }
+
+        onMounted(async () => {
+            const res = await fetch('http://localhost:8000/api/auth', {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            const content = await res.json();
+
+            if(content.message == 'auth'){
+                router.push('/');
+            }
+        })
 
         function goToRegister(){
             router.push('/register')
