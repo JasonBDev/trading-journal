@@ -40,8 +40,8 @@ export default {
         border-radius: 10px;
         box-shadow: rgba(150,150,150,0.5) 0px 0px 20px;
         position: absolute;
-        margin-right: -2px;
-        top: 205px;
+        margin-right: 10px;
+        top: 208px;
         display: flex;
         flex-direction: column;
         justify-content: center;

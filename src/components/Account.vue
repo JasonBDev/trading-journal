@@ -2,12 +2,11 @@
   <div class="account-div">
       <div class="left-div">
       <span class="material-icons">account_box</span>
-          <p style="margin: 0 0 0 40px; width: 180px; text-align: left; overflow: hidden;">{{account.name}}</p>
-          <p class="divider">|</p>
+          <p style="margin: 0 0 0 20px; width: 140px; text-align: left; overflow: hidden;">{{account.name}}</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{Math.round((account.wins / (account.wins + account.losses)) * 100)}}%</p>
-          <p class="divider">|</p>
+          <p class="divider">/</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{Math.round(account.average_rr / (account.wins + account.losses))}}</p>
-          <p class="divider">|</p>
+          <p class="divider">/</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">#: {{account.wins + account.losses}}</p>
       </div>
       
@@ -80,6 +79,12 @@ export default {
 .left-div{
     display: flex;
     flex-direction: row;
+    align-items: center;
+}
+
+.left-div span{
+    font-size: 36px;
+    margin-left: 30px;
 }
 
 .account-div{
@@ -88,7 +93,7 @@ export default {
     background-color: white;
     border: solid 1px rgb(230,230,230);
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -118,13 +123,13 @@ export default {
 .account-div button:first-child:hover{
     cursor: pointer;
     color: rgb(120,199,171);
-    background: rgb(247,250,251);
+    background: rgb(230,230,230);
 }
 
 .account-div button:last-child:hover{
     cursor: pointer;
     color: rgb(220,67,105);
-    background: rgb(247,250,251);
+    background: rgb(230,230,230);
 }
 
 </style>

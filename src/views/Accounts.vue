@@ -191,8 +191,7 @@ h1{
 
 .pagination button:hover{
   cursor: pointer;
-  background: rgb(30,30,30);
-  color: white;
+  background: rgb(230,230,230);
 }
 .active_page{
   background-color: rgb(30,30,30) !important;
