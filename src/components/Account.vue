@@ -1,6 +1,7 @@
 <template>
   <div class="account-div">
       <div class="left-div">
+      <span class="material-icons">account_box</span>
           <p style="margin: 0 0 0 40px; width: 180px; text-align: left; overflow: hidden;">{{account.name}}</p>
           <p class="divider">|</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{Math.round((account.wins / (account.wins + account.losses)) * 100)}}%</p>

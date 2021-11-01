@@ -136,6 +136,7 @@ export default {
   margin-top: 40px;
   position: absolute;
   top: 710px;
+  margin-right: 10px;
   box-shadow: rgba(200,200,200,0.5) 0px 0px 20px;
 }
 

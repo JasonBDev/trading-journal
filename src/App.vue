@@ -13,11 +13,10 @@
         <router-link v-if="!auth_status" to="/register">Register</router-link>
       </div>
       <div class="right-nav">
-        <p>{{username}}</p>
-        <button v-if="auth_status" @click="logout()"><span class="material-icons md-18">logout</span></button>
+        <p>{{username.charAt(0).toUpperCase() + username.slice(1)}}</p><span @click="toggleProfileDropdown" class="material-icons" style="color: black;font-size: 48px !important;">account_circle</span>
       </div>
 
-      <Profile />
+      <Profile v-if="profileDropdown"/>
     </div>
     <router-view/>
 
@@ -43,6 +42,7 @@ export default {
     const router = useRouter();
     const username = computed(() => store.state.name);
     const store = useStore();
+    const profileDropdown = ref(false);
 
     var auth_status = computed(() => store.state.auth_status);
 
@@ -50,6 +50,10 @@ export default {
       if(computed(() => store.state.auth_status).value === true){
         router.push('/');
       }
+    }
+
+    function toggleProfileDropdown(){
+      profileDropdown.value = !profileDropdown.value;
     }
 
     async function logout(){
@@ -94,7 +98,7 @@ export default {
       await store.commit('setName', name.name);
     })
 
-    return{ loggedIn, logout, username, goToHome, auth_status}
+    return{toggleProfileDropdown,profileDropdown, loggedIn, logout, username, goToHome, auth_status}
   }
 }
 </script>
@@ -118,15 +122,25 @@ export default {
 }
 
 .right-nav p{
-  margin-right: 20px;
-  cursor:pointer;
-  padding-bottom: 8px; margin-bottom: -8px;
+  margin-bottom: -8px;
   transition: 200ms;
   border-bottom: solid; border-color: white; border-width: 1px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 10px 8px 10px;
 }
 
-.right-nav p:hover{
-  border-bottom: solid; border-color: rgb(30,30,30); border-width: 1px;
+.right-nav span{
+  padding: 5px;
+  border-radius: 100px;
+  transition: 200ms;
+}
+
+.right-nav span:hover{
+  background-color: rgb(230,230,230);
+  cursor: pointer;
 }
 
 .right-nav button{
