@@ -1,10 +1,14 @@
 <template>
+  <div class="card-header">
+    <div></div>
+  </div>
+
   <div class="accounts-header">
     <h1>Accounts</h1>
     <button @click="toggleInput"><span class="material-icons md-18">add</span>Account</button>
   </div>
 
-  <accountinput @createAccount="addAccount" v-if="inputVisible" />
+  <accountinput @closeInput="toggleInput" @createAccount="addAccount" v-if="inputVisible" />
 
   <Account @refreshAccounts="refreshAccounts()" v-for="account in accounts" :key="account.id" :account="account"/>
 

@@ -31,7 +31,7 @@ h2{
     margin-bottom: 30px;
     font-size: 88px;
     font-weight: 900;
-    background: -webkit-linear-gradient(45deg, rgb(0,125,255), rgb(255, 50, 0));
+    background: -webkit-linear-gradient(45deg, rgb(0,125,255), rgb(0,255,200));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

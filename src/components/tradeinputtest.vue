@@ -88,7 +88,7 @@ export default {
   font-weight: 500;
   font-size: 14px;
   margin-bottom: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .main-container{
@@ -131,11 +131,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 316px;
-  padding: 20px 0 0px 0;
-  margin-top: 40px;
+  height: 356px;
   position: absolute;
-  top: 710px;
+  top: 760px;
   margin-right: 10px;
   box-shadow: rgba(200,200,200,0.5) 0px 0px 20px;
 }
@@ -155,47 +153,48 @@ export default {
   border-radius: 5px;
 }
 
-
-.trade-input button:first-child{
-  background-color: rgb(223,246,239); 
-  color: rgb(120,199,171);
-  height: 36px;
-  border: none;
-  width: 160px;
-  transition: 200ms;
-  border-radius: 0 0 0 10px;
-  cursor: pointer;
-  font-weight: 800;
-  transition: 200ms;
-}
-
-.trade-input button:nth-child(1):hover{
-  background-color: rgb(203,226,219);
-}
-
-.trade-input button:nth-child(2){
-  background-color: rgb(251,192,207); 
-  color: rgb(220,67,105);
-  height: 36px;
-  border: none;
-  width: 160px;
-  transition: 200ms;
-  border-radius: 0 0 10px 0;
-  cursor: pointer;
-  font-weight: 800;
-  transition: 200ms;
-}
-
-.trade-input button:nth-child(2):hover{
-  background-color: rgb(231,172,187);
-}
-
 .button-div{
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  height: 100px;
+}
+
+.trade-input button:first-child{
+  background-color: rgb(30,30,30); 
+  color: white;
+  height: 36px;
+  border: none;
+  width: 204px;
+  transition: 200ms;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 800;
+  transition: 200ms;
+  
+}
+
+.trade-input button:nth-child(1):hover{
+  background: rgb(60,60,60);
+}
+
+.trade-input button:nth-child(2){
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  border-radius: 100px;
+  background-color: white;
+  transition: 200ms;
+  color: rgb(100,100,100);
+}
+
+.trade-input button:nth-child(2):hover{
+  cursor: pointer;
+  background-color: rgb(230,230,230);
 }
 </style>

@@ -9,7 +9,7 @@
       </div>
       
       <div class="button-div">
-        <button @click="goToDashboard(account._id)"><span class="material-icons md-18">login</span></button>
+        <button @click="goToDashboard(account._id)"><span class="material-icons md-18">check</span></button>
         <button @click="deleteAccount(account._id)"><span class="material-icons md-18">delete</span></button>
       </div>
       
