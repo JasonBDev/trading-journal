@@ -3,20 +3,19 @@
     <div id="nav">
       <div class="left-nav">
         <div @click="goToHome"><h1>SR</h1></div>
-        <router-link v-if="auth_status" to="/">Dashboard</router-link>
-        <p v-if="auth_status">/</p>
-        <router-link v-if="auth_status" to="/statistics">Statistics</router-link>
-        <p v-if="auth_status">/</p>
-        <router-link v-if="auth_status" to="/social">Social</router-link>
+        <router-link class="nav-button" v-if="auth_status" to="/"><span class="material-icons">space_dashboard</span><p>Dashboard</p></router-link>
+        <router-link class="nav-button" v-if="auth_status" to="/statistics"><span class="material-icons">analytics</span><p>Analytics</p></router-link>
+        <router-link class="nav-button" v-if="auth_status" to="/social"><span class="material-icons">forum</span><p>Social</p></router-link>
         <router-link v-if="!auth_status" to="/login">Login</router-link>
         <p v-if="!auth_status">/</p>
         <router-link v-if="!auth_status" to="/register">Register</router-link>
       </div>
-      <div class="right-nav">
-        <p>{{username.charAt(0).toUpperCase() + username.slice(1)}}</p><span @click="toggleProfileDropdown" class="material-icons" style="color: black;font-size: 48px !important;">account_circle</span>
+      <div v-if="auth_status" class="right-nav">
+        <p v-if="auth_status">{{username.charAt(0).toUpperCase() + username.slice(1)}}</p><span v-if="auth_status" @click="toggleProfileDropdown" class="material-icons" style="color: black;font-size: 48px !important;">account_circle</span>
       </div>
 
-      <Profile v-if="profileDropdown"/>
+      <ProfileDropdown @viewProfile="toggleViewProfile" @logout="logout" v-if="profileDropdown"/>
+      <Profile @closeProfile="toggleViewProfile" v-if="viewProfileVis" />
     </div>
     <router-view/>
 
@@ -29,12 +28,14 @@ import { computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore} from 'vuex'
 import Footer from "./components/Footer.vue"
-import Profile from './components/Profile.vue'
+import ProfileDropdown from './components/ProfileDropdown.vue'
+import Profile from './components/Profile.vue';
 
 export default {
   name: 'App',
   components: {
     Footer,
+    ProfileDropdown,
     Profile
   },
   setup(){
@@ -43,6 +44,7 @@ export default {
     const username = computed(() => store.state.name);
     const store = useStore();
     const profileDropdown = ref(false);
+    const viewProfileVis = ref(false);
 
     var auth_status = computed(() => store.state.auth_status);
 
@@ -52,11 +54,18 @@ export default {
       }
     }
 
+    function toggleViewProfile(){
+      profileDropdown.value = false;
+      viewProfileVis.value = !viewProfileVis.value;
+    }
+
     function toggleProfileDropdown(){
       profileDropdown.value = !profileDropdown.value;
     }
 
     async function logout(){
+
+      profileDropdown.value = false;
 
       const res = await fetch('http://localhost:8000/api/logout', {
         method: 'POST',
@@ -98,7 +107,7 @@ export default {
       await store.commit('setName', name.name);
     })
 
-    return{toggleProfileDropdown,profileDropdown, loggedIn, logout, username, goToHome, auth_status}
+    return{viewProfileVis, toggleViewProfile, toggleProfileDropdown,profileDropdown, loggedIn, logout, username, goToHome, auth_status}
   }
 }
 </script>
@@ -172,8 +181,8 @@ export default {
   margin-top: -2px;
 }
 
-.svg-class{
-  color: black;
+.left-nav router-link{
+  background-color: red !important;
 }
 
 #app {
@@ -214,21 +223,20 @@ export default {
   border-color: black;
 }
 
-#nav button{
-  color: white;
-  border: solid;
-  border-radius: 5px;
-  border-width: 1px;
-  padding: 10px;
-  font-size: 15px;
-  background-color: rgb(30,30,30); 
-  text-decoration: none;
-  cursor: pointer;
-  transition: 200ms;
+.nav-button{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-#nav button:hover{
-  background-color: rgb(60,60,60); 
+.nav-button span {
+  font-size: 26px;
+  margin-right: 10px;
+}
+
+.nav-button p {
+  margin-top: 4px;
 }
 
 

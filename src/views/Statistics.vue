@@ -1,5 +1,5 @@
 <template>
-    <h1>Statistics</h1>
+    <h1>Analytics</h1>
     <h2>Coming Soon!</h2>
     <div class="subtitle-box">
         <h3>More in-depth analysis on your trading data!</h3>
@@ -70,10 +70,12 @@ h3{
     padding: 0 5px 0 5px;
     min-width: 100px;
     font-size: 18px;
+    transition: 200ms;
 }
 
 .notify-box button:hover{
     cursor: pointer;
+    background-color: rgb(230,230,230);
 }
 
 .notify-box input {

@@ -143,16 +143,16 @@ export default {
 .trade-input input{
   padding: 10px;
   width: 70px;
-  border: solid; border-width: 1px; border-color: rgb(230,230,230); border-radius: 10px;
+  border: solid; border-width: 1px; border-color: rgb(230,230,230); border-radius: 5px;
   outline: none;
 }
 
 .side-class{
-  width: 100px;
+  width: 90px;
   padding: 9px; padding-right: 20px;
   outline: none;
   border: solid; border-width: 1px; border-color: rgb(230,230,230);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 

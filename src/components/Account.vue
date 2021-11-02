@@ -4,9 +4,7 @@
       <span class="material-icons">account_box</span>
           <p style="margin: 0 0 0 20px; width: 140px; text-align: left; overflow: hidden;">{{account.name}}</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">HR: {{Math.round((account.wins / (account.wins + account.losses)) * 100)}}%</p>
-          <p class="divider">/</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">RR: {{Math.round(account.average_rr / (account.wins + account.losses))}}</p>
-          <p class="divider">/</p>
           <p style="margin: 0 20px 0 20px; width: 80px;">#: {{account.wins + account.losses}}</p>
       </div>
       

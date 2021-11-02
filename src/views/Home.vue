@@ -4,11 +4,6 @@
 
   <div class="performance-header">
     <h1>{{account_name}} - Equity Curve </h1>
-    <select>
-      <option value="monthly">Monthly</option>
-      <option value="weekly">Weekly</option>
-      <option value="daily">Daily</option>
-    </select>
   </div>
 
   <div class="header">

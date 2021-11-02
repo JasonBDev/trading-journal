@@ -70,10 +70,12 @@ h3{
     padding: 0 5px 0 5px;
     min-width: 100px;
     font-size: 18px;
+    transition: 200ms;
 }
 
 .notify-box button:hover{
     cursor: pointer;
+    background-color: rgb(230,230,230);
 }
 
 .notify-box input {
