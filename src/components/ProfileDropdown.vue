@@ -3,6 +3,7 @@
       <div class="dropdown">
         <button @click="this.$emit('viewProfile')"><span class="material-icons md-18">person</span>View Profile</button>
         <button><span class="material-icons md-18">dark_mode</span>Dark Mode</button>
+        <button><span class="material-icons md-18">shopping_cart</span>Subscription</button>
         <button @click="this.$emit('logout')"><span class="material-icons md-18">power_settings_new</span>Log Out</button>
       </div>
   </div>

@@ -10,7 +10,13 @@
 
   <accountinput @closeInput="toggleInput" @createAccount="addAccount" v-if="inputVisible" />
 
-  <Account @refreshAccounts="refreshAccounts()" v-for="account in accounts" :key="account.id" :account="account"/>
+  <Suspense>
+    <template #default>
+      <Account @refreshAccounts="refreshAccounts()" v-for="account in accounts" :key="account.id" :account="account"/>
+    </template>
+
+    <template #fallback>Loading...</template>
+  </Suspense>
 
   <div class="pagination">
     <button @click="page_down"><span class="material-icons md-18">chevron_left</span></button>

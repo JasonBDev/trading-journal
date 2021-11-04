@@ -86,7 +86,7 @@ export default {
         height: 30px;
         padding-left: 10px;
         border: solid 1px rgb(230,230,230);
-        border-radius: 10px;
+        border-radius: 5px;
         margin-bottom: 10px;
         outline: none;
     }

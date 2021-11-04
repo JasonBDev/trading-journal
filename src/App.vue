@@ -4,8 +4,8 @@
       <div class="left-nav">
         <div @click="goToHome"><h1>SR</h1></div>
         <router-link class="nav-button" v-if="auth_status" to="/"><span class="material-icons">space_dashboard</span><p>Dashboard</p></router-link>
-        <router-link class="nav-button" v-if="auth_status" to="/statistics"><span class="material-icons">analytics</span><p>Analytics</p></router-link>
-        <router-link class="nav-button" v-if="auth_status" to="/social"><span class="material-icons">forum</span><p>Social</p></router-link>
+        <router-link class="nav-button" v-if="auth_status" to="/statistics"><span class="material-icons">bar_chart</span><p>Analytics</p></router-link>
+        <router-link class="nav-button" v-if="auth_status" to="/social"><span class="material-icons">people</span><p>Social</p></router-link>
         <router-link v-if="!auth_status" to="/login">Login</router-link>
         <p v-if="!auth_status">/</p>
         <router-link v-if="!auth_status" to="/register">Register</router-link>

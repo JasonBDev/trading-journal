@@ -177,7 +177,8 @@ export default {
 }
 
 .trade-input button:nth-child(1):hover{
-  background: rgb(60,60,60);
+  background: rgb(120,199,171);
+  cursor:pointer;
 }
 
 .trade-input button:nth-child(2){

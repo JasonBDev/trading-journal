@@ -11,11 +11,15 @@
       <p v-bind:class="{'win': (info.profit > 0), 'loss': (info.profit < 0)}">${{info.profit}}</p>
     </div>
 
-    <div class="trade-stats">
-      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Risk/Reward: {{info.rr}}</p>
-      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Stoploss: ${{info.sl}}</p>
-      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Entry: ${{info.entry}}</p>
-      <p style="width: 144px; height: 15px; text-transform: none;" class="profit">Take Profit: ${{info.tp}}</p>
+    <div class="edit-div">
+      <div><p></p></div>
+      <div style="margin-left: 26px;"><p></p></div>
+      <input type="text">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+      <button>Edit</button>
     </div>
 
     <h2>Notes</h2>
@@ -106,6 +110,28 @@ export default {
 
 <style scoped>
 
+.edit-div{
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-div input{
+  margin: 0 !important;
+  outline: none;
+  border: solid 1px rgb(230,230,230);
+  border-radius: 5px;
+  padding: 5px;
+  width: 50px;
+}
+
+.edit-div button{
+  width: 70px;
+}
+
 .win{
   color: rgb(120,199,171);
 }
@@ -157,19 +183,6 @@ export default {
   text-align: left;
   margin: 10px 0 10px 20px;
   font-weight: 500;
-}
-
-.trade-stats{
-  display: flex;
-  flex-direction: row;
-  margin: 20px 0 0 20px;
-}
-
-.trade-stats p{
-  border: solid; border-width: 1px; border-radius: 10px; border-color: rgb(230,230,230);
-  background-color: white;
-  margin-right: 10px;
-  padding: 15px 10px 15px 10px;
 }
 
 .active{
